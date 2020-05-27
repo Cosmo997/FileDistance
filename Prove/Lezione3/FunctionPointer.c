@@ -2,37 +2,37 @@
 #include <stdlib.h>
 #define DIM 15
 
-char* create_random_string(void);
+void create_random_string(char* str);
 char* find_first(char* str, char c);
-double* geometric_growth(void);
 
 int main(void)
 {
-    printf("\n Risultato: %c\n", find_first(create_random_string(),'E'));
+    char stringa[DIM];
+    char* stri = stringa;
+    create_random_string(stri);
+        for (int i = 0; i < DIM; i++)
+            {
+                printf("%c", stringa[i]);
+            }    
+    printf("\n Risultato: %s\n", find_first(stri,'E'));
+    return 0;
 }
 
-char* create_random_string()
+void create_random_string(char* str)
 {
-    static char stringa[DIM];
-
-    for (int i = 0; i < sizeof(stringa); i++)
+    for (int i = 0; i < DIM; i++)
     {
-        stringa[i] = 'A' + (random() % 26);
+        str[i] = 'A' + (random() % 26);
+        printf("%c", str);
+        str++;
     }
-    return stringa;
 }
 char* find_first(char* str, char c)
 {
-    while (str++ != '\0')
+    while (str++ != "\0")
     {
         if (*str == 'c')
             return str;
     }
     return NULL;
-}
-double* geometric_growth(void)
-{
-    static double grows = 0.1;
-    grows *= 1.1;
-    return &grows;
 }
