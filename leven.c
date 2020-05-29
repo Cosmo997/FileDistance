@@ -1,12 +1,10 @@
-//
-//  levenshtein.c
-//  filedistance
-//
-//  Created by Michele on 27/05/2020.
-//  Copyright © 2020 Michele. All rights reserved.
-//
 
-#include "levenshtein.h"
+#include "leven.h"
+
+int minimum(int a, int b, int c);
+
+
+
 
 int levensthein_distance(char *x, char *y){
     int m = strlen(x);
@@ -48,15 +46,13 @@ int levensthein_distance(char *x, char *y){
     return distance;
 }
 
+/**
+ * Funzione che restituisce il minimo tra 3 valori
+ */
 int minimum(int a, int b, int c) {
-
-/* funzione che calcola il minimo di 3 valori */
-
     int min = a;
-
     if (b < min) min = b;
     if (c < min) min = c;
-
     return min;
 }
 
