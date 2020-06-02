@@ -14,24 +14,24 @@
  * EDIT DISTANCE: ​ distanza
  * TIME: ​ tempo di calcolo
  */
-int distance(File file1, File file2);
+int distance(FILE *inputfile1, FILE *inputfile2);
 
 /**
  * Metodo che salva nel file ​output la sequenza delle istruzioni necessarie per trasformare il primo file nel secondo.
  */
-int distance_out(File file1, File file2);
+int distance_out(FILE *inputfile1, FILE *filem, FILE *outputfile);
 
 /**
  * Applica a ​ inputfile l ​ e modifiche contenute nel file ​ filem ​ e salva il risultato nel file ​ outputfile ​ .
  * 
  */
-int apply(File f1, File m);
+int apply(FILE *inputfile1, FILE *filem, FILE *outputfile);
 
 /**
  * Restituisce in output i file contenuti in ​ dir ​(e nelle sue sottodirectory) che hanno minima distanza da ​inputfile.
  * Il path assoluto di ogni file viene presentato in una riga dello ​standard output. 
  */
-int search(File input, Directory dir);
+// TODO int search(FILE *inputfile1, DIRECTORY dir);
 
 /**
  * Vengono restituiti in output tutti i file contenuti in dir (e nelle sue sottodirectory)
@@ -40,6 +40,6 @@ int search(File input, Directory dir);
  * distanza pathassolutofile
  * 
  */
-int searchAll(File input, Directory dir);
+// TODO int searchAll(FILE *inputfile1, DIRECTORY dir, int limit);
 
 #endif 
