@@ -1,4 +1,3 @@
-
 #include "leven.h"
 
 int minimum(int a, int b, int c);
@@ -7,6 +6,7 @@ int minimum(int a, int b, int c);
 
 
 int levensthein_distance(char *x, char *y){
+    start_timer();
     int m = strlen(x);
     int n = strlen(y);
     
@@ -42,13 +42,10 @@ int levensthein_distance(char *x, char *y){
     
     free(curr);
     free(prev);
-    
+    stop_timer();
     return distance;
 }
 
-/**
- * Funzione che restituisce il minimo tra 3 valori
- */
 int minimum(int a, int b, int c) {
     int min = a;
     if (b < min) min = b;
@@ -56,7 +53,8 @@ int minimum(int a, int b, int c) {
     return min;
 }
 
-void result(char* file1, char* file2, double time){
-    printf("EDIT DISTANCE: %d \n", levensthein_distance(file1, file2));
-    printf("TIME: %lf sec \n", time);
+int stringCompare(char *x, char *y){
+    printf("EDIT DISTANCE: %d \n", levensthein_distance(x, y));
+    printf("TIME: %lf sec \n", getExecutionTime());
+    return 0;
 }

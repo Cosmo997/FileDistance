@@ -1,17 +1,11 @@
-CXX = g++
-CXXFLAGS = -Wall -Werror -Wextra -pedantic -std=c++17 -g -fsanitize=address
-LDFLAGS =  -fsanitize=address
-
-SRC = mainProva.c franco.h
-OBJ = $(SRC:.cc=.o)
-EXEC = mainProva.o
-
-all: $(EXEC)
+CC = gcc
+OBJ = mainProva.o franco.o
+EXEC = prova
 
 $(EXEC): $(OBJ)
-	$(CXX) $(LDFLAGS) -o $@ $(OBJ) $(LBLIBS)
+	$(CC) -o $@ $(OBJ)
 
-franco.o : franco.c franco.h
+franco.o : franco.h franco.c
 
 mainProva.o : mainProva.c
 

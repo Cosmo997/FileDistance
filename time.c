@@ -9,13 +9,18 @@
 #include "time.h"
 
 time_t start, end;
+double execution_time;
 
 void start_timer(){
     start = clock();
 };
 
-double stop_timer(){
+void stop_timer(){
         end = clock();
-        double execution_time = (double)(end - start) / CLOCKS_PER_SEC;
-        return execution_time;
+        execution_time = (double)(end - start) / CLOCKS_PER_SEC;
 };
+
+double getExecutionTime()
+{
+    return execution_time;
+}
