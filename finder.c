@@ -1,1 +1,2 @@
-#include "finder.h"
+#include "Lib/finder.h"
+//TODO Implementare metodi

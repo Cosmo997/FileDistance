@@ -6,8 +6,8 @@ $(EXEC): $(OBJ)
 	$(CC) -o $@ $(OBJ)
 
 main.o : main.c 
-filedistance.o : file_distance.h file_distance.c leven.h
-leven.o : leven.h leven.c
-time.o : time.h time.c
+filedistance.o : Lib/file_distance.h file_distance.c Lib/leven.h
+leven.o : Lib/leven.h leven.c
+time.o : Lib/time.h time.c
 clean:
 	rm -rf $(OBJ) $(EXEC)

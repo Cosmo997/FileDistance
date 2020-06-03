@@ -4,10 +4,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-//TODO Vedere come si gestiscono i File
-//TODO Vedere come si gestiscono le cartelle
-
-
+// TODO Sostituire i FILE in input con stringhe
+// TODO ! Vedere come si gestiscono le cartelle
 
 /**
  * Metodo che calcola la distanza dal file e generato un output della seguente forma:
@@ -23,7 +21,6 @@ int distance_out(FILE *inputfile1, FILE *filem, FILE *outputfile);
 
 /**
  * Applica a ​ inputfile l ​ e modifiche contenute nel file ​ filem ​ e salva il risultato nel file ​ outputfile ​ .
- * 
  */
 int apply(FILE *inputfile1, FILE *filem, FILE *outputfile);
 
@@ -41,5 +38,6 @@ int apply(FILE *inputfile1, FILE *filem, FILE *outputfile);
  * 
  */
 // TODO int searchAll(FILE *inputfile1, DIRECTORY dir, int limit);
+
 
 #endif 

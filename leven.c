@@ -1,10 +1,14 @@
-#include "leven.h"
+#include "Lib/leven.h"
 
+
+// ? filem bin? txt?
 int minimum(int a, int b, int c);
 
 
 
-
+//TODO ! Modificare tutto sto metodo
+//TODO ! Capire leven
+//TODO ! Modificare leven per salvare le modifiche
 int levensthein_distance(char *x, char *y){
     start_timer();
     int m = strlen(x);
@@ -54,7 +58,13 @@ int minimum(int a, int b, int c) {
 }
 
 int stringCompare(char *x, char *y){
-    printf("EDIT DISTANCE: %d \n", levensthein_distance(x, y));
+    int distance = levensthein_distance(x, y);
+    printf("EDIT DISTANCE: %d \n", distance);
     printf("TIME: %lf sec \n", getExecutionTime());
-    return 0;
+    return distance;
+}
+
+char* create_file_edit(FILE *output)
+{
+
 }

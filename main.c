@@ -1,14 +1,12 @@
 
 #include <string.h>
-#include "file_distance.h"
-#include "leven.h"
-#include "time.h"
+#include "Lib/file_distance.h"
+#include "Lib/leven.h"
+#include "Lib/time.h"
 
 //TODO Help
-//TODO Importare filedistance.h
+//TODO Vedere la gestione degli errori su c <errno.h>
 
-//char argomento1[];
-//char argomento2[];
 
 
 FILE *inputFile1 = NULL;
@@ -37,7 +35,7 @@ int main(int argc, const char *argv[])
             inputFile1 = fopen(argv[2],"r");
             if(inputFile1 == NULL)
             {
-                printf("\nErrore nell'apertura del primo file\n");
+                perror("\nErrore nell'apertura del primo file\n");
                 return 1;
             }
             
@@ -87,9 +85,8 @@ int main(int argc, const char *argv[])
     else
         {
             help();
-            exit(1);
         }
-    
+    fcloseAll();
 }
 void help()
 {
