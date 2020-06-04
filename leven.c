@@ -1,19 +1,55 @@
 #include "Lib/leven.h"
 
+int nrighe = 0;
+int ncolonne = 0;
+int **matrix = NULL;
+int i = 0, j = 0;
+
+
 
 // ? filem bin? txt?
+
 int minimum(int a, int b, int c);
+void initMatrix();
+void fillMatrix();
+void findEditPath();
+void pmatrix();
 
 
 
 //TODO ! Modificare tutto sto metodo
 //TODO ! Capire leven
 //TODO ! Modificare leven per salvare le modifiche
-int levensthein_distance(char *x, char *y){
+int levensthein_distance(char *stringa1, char *stringa2){
+
+    stringa1[strlen(stringa1)-1] = 0;
+    stringa2[strlen(stringa2)-1] = 0;
+
     start_timer();
+
+    nrighe = strlen(stringa1);
+
+    ncolonne = strlen(stringa2);
+
+    initMatrix();
+
+
+    fillMatrix(stringa1, stringa2);
+
+    pmatrix();
+
+    //findEditPath();
+
+    stop_timer();
+
+    return matrix[nrighe][ncolonne];
+
+
+/*
     int m = strlen(x);
     int n = strlen(y);
     
+
     register int i, j;
     int distance;
     
@@ -46,8 +82,14 @@ int levensthein_distance(char *x, char *y){
     
     free(curr);
     free(prev);
+
+
+
+
+
     stop_timer();
     return distance;
+    */
 }
 
 int minimum(int a, int b, int c) {
@@ -64,7 +106,71 @@ int stringCompare(char *x, char *y){
     return distance;
 }
 
+
+void initMatrix()
+{
+    matrix = (int**) malloc ((nrighe + 1) * sizeof(int*));
+
+    for ( i = 0; i < nrighe; i++)
+    {
+        matrix[i] = (int*) malloc((ncolonne +1) * sizeof(int));
+    }
+    
+    for ( i = 0; i < nrighe; i++)
+    {
+        matrix[i][0] = i;
+    }
+    for ( i = 0; i < ncolonne; i++)
+    {
+        matrix[j][i] = i;
+    }
+    
+}
+
+
+void fillMatrix(char *stringa1, char *stringa2)
+{
+    
+    for ( i = 1; i <= nrighe; i++)
+    {
+        for ( j = 1; j <= ncolonne; j++)
+        {
+            if(stringa1[i-1] != stringa2[j-1])
+            {
+                printf("\nConfronto lettera %c con %c", stringa1[i-1],stringa2[j-1]);
+                matrix[i][j] = minimum(matrix[i][j-1],matrix[i-1][j-1],matrix[i-1][j]) + 1;
+            }
+            else
+            {
+                printf("\nConfronto lettera %c con %c", stringa1[i-1],stringa2[j-1]);
+                matrix[i][j] = minimum(matrix[i][j-1],matrix[i-1][j-1],matrix[i-1][j]);
+            }
+            
+        }
+    }
+}
+void findEditPath()
+{
+    return ;
+}
+
 char* create_file_edit(FILE *output)
 {
-
+    return 0;
+}
+void prova()
+{
+    initMatrix();
+}
+void pmatrix()
+{
+    printf("\n");
+    for ( i = 0; i < nrighe; i++)
+    {
+        for ( j = 0; j < ncolonne; j++)
+        {
+            printf("%d\t", matrix[i][j]);
+        }
+        printf("\n");
+    }
 }
