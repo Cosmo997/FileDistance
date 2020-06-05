@@ -9,32 +9,32 @@ int i = 0, j = 0;
 
 // ? filem bin? txt?
 
-int minimum(int a, int b, int c);
+int min(int a, int b, int c);
+void stringElaboration(char * stringa1, char * stringa2);
+void complexityReduction(char *stringa1, char *stringa2);
 void initMatrix();
 void fillMatrix();
 void findEditPath();
 void pmatrix();
-//TODO Aggiungere il metodo void complexotyReduction(char *stringa1, char *stringa2);
 
 
-//TODO ! Modificare tutto sto metodo
-//TODO ! Capire leven
+//TODO Aggiungere il metodo void complexityReduction(char *stringa1, char *stringa2);
+//TODO Riportare i metodi privati nella lib con l'attributo static
 //TODO ! Modificare leven per salvare le modifiche
-int levensthein_distance(char *stringa1, char *stringa2){
 
-    if(stringa1[strlen(stringa1)-1] == '\0')
-    stringa1[strlen(stringa1)-1] = 0;
-    if(stringa2[strlen(stringa2)-1] == '\0')
-    stringa2[strlen(stringa2)-1] = 0;
-
+int levensthein_distance(char *stringa1, char *stringa2)
+{
     start_timer();
 
-    nrighe = strlen(stringa1);
+    stringElaboration(stringa1, stringa2);
 
-    ncolonne = strlen(stringa2);
+    if(nrighe == 0 && ncolonne == 0)
+    {
+        stop_timer();
+        return 0;
+    }
 
     initMatrix();
-
 
     fillMatrix(stringa1, stringa2);
 
@@ -46,55 +46,9 @@ int levensthein_distance(char *stringa1, char *stringa2){
 
     return matrix[nrighe][ncolonne];
 
-
-/*
-    int m = strlen(x);
-    int n = strlen(y);
-    
-
-    register int i, j;
-    int distance;
-    
-    int *prev = malloc((n + 1) * sizeof(int));
-    int *curr = malloc((n + 1) * sizeof(int));
-    int *tmp = 0;
-    
-    for(i = 0; i <= n; i++)
-        prev[i] = i;
-
-    for(i = 1; i <= m; i++) {
-        curr[0] = i;
-        for(j = 1; j <= n; j++) {
-            if(x[i - 1] != y[j - 1]) {
-                int k = minimum(curr[j - 1], prev[j - 1], prev[j]);
-                curr[j] = k + 1;
-            } else {
-                curr[j] = prev[j - 1];
-            }
-        }
-
-        tmp = prev;
-        prev = curr;
-        curr = tmp;
-        
-        memset((void*) curr, 0, sizeof(int) * (n + 1));
-    }
-    
-    distance = prev[n];
-    
-    free(curr);
-    free(prev);
-
-
-
-
-
-    stop_timer();
-    return distance;
-    */
 }
 
-int minimum(int a, int b, int c) {
+int min(int a, int b, int c) {
     int min = a;
     if (b < min) min = b;
     if (c < min) min = c;
@@ -107,7 +61,6 @@ int stringCompare(char *x, char *y){
     printf("TIME: %lf sec \n", getExecutionTime());
     return distance;
 }
-
 
 void initMatrix()
 {
@@ -129,47 +82,62 @@ void initMatrix()
     
 }
 
-
 void fillMatrix(char *stringa1, char *stringa2)
 {
     for ( i = 1; i <= nrighe; i++)
     {
-        printf("\nControlli sulla lettera %c di %s: ", stringa1[i-1], stringa1);
         for ( j = 1; j <= ncolonne; j++)
         {
-            printf("\n\tControlli sulla lettera %c di %s: ", stringa2[j-1], stringa2);
             if(stringa1[i-1] != stringa2[j-1])
             {
-                printf("\n\tConfronto lettere diverse %c con %c", stringa1[i-1],stringa2[j-1]);
-                matrix[i][j] = minimum(matrix[i][j-1],matrix[i-1][j-1],matrix[i-1][j]) + 1;
-                printf("\n\tValori confrontati: %d - %d - %d ",matrix[i][j-1],matrix[i-1][j-1],matrix[i-1][j]);
-                printf("\n\tAggiunto il valore %d nella posizione [%d][%d]",minimum(matrix[i][j-1],matrix[i-1][j-1],matrix[i-1][j]) + 1, i, j);
+                matrix[i][j] = min(matrix[i][j-1],matrix[i-1][j-1],matrix[i-1][j]) + 1;
             }
             else
             {
-                printf("\n\tConfronto lettere uguali %c con %c", stringa1[j-1],stringa2[i-1]);
-                matrix[i][j] = minimum(matrix[i][j-1],matrix[i-1][j-1],matrix[i-1][j]);
-                printf("\n\tValori confrontati: %d - %d - %d ",matrix[i][j-1],matrix[i-1][j-1],matrix[i-1][j]);
-                printf("\n\tAggiunto il valore %d nella posizione [%d][%d]",minimum(matrix[i][j-1],matrix[i-1][j-1],matrix[i-1][j]), i, j);
-
+                matrix[i][j] = min(matrix[i][j-1],matrix[i-1][j-1],matrix[i-1][j]);
             }
             
         }
     }
 }
+
+//TODO Da implementare
 void findEditPath()
 {
     return ;
 }
 
+//TODO Da implementare
 char* create_file_edit(FILE *output)
 {
     return 0;
 }
-void prova()
+
+void stringElaboration(char * stringa1, char * stringa2)
 {
-    initMatrix();
+    if(stringa1[strlen(stringa1)-1] == '\0')
+    stringa1[strlen(stringa1)-1] = 0;
+    if(stringa2[strlen(stringa2)-1] == '\0')
+    stringa2[strlen(stringa2)-1] = 0;
+    complexityReduction(stringa1, stringa2);
+
+    nrighe = strlen(stringa1);
+    ncolonne = strlen(stringa2);
+
 }
+
+void complexityReduction(char *stringa1, char *stringa2)
+{
+    if(stringa1[strlen(stringa1)-1] != '\0' && stringa2[strlen(stringa2)-1] != '\0')
+    if(stringa1[strlen(stringa1)-1] == stringa2[strlen(stringa2)-1])
+    {
+        stringa1[strlen(stringa1)-1] = 0;
+        stringa2[strlen(stringa2)-1] = 0;
+        complexityReduction(stringa1, stringa2);
+    }
+    else return;
+}
+
 void pmatrix()
 {
     printf("\n");

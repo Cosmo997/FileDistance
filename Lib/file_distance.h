@@ -24,7 +24,6 @@ int distance_out(char *inputfile1, char *filem, char *outputfile);
  */
 int apply(char *inputfile1, char *filem, char *outputfile);
 
-void prova();
 /**
  * Restituisce in output i file contenuti in ​ dir ​(e nelle sue sottodirectory) che hanno minima distanza da ​inputfile.
  * Il path assoluto di ogni file viene presentato in una riga dello ​standard output. 
