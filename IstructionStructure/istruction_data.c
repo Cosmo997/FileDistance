@@ -5,7 +5,7 @@ struct istructionData
     /**
      * Tipo di istruzione da apportare: ADD, SET o DEL
      */
-    char *istructionType;
+    IstructionType istruction;
     /**
      * Unsigned int che indica la posizione in cui verrà apportata la modifica
      */

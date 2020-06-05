@@ -19,6 +19,6 @@ IstructionData getIstruction();
 
 IstructionData popIstruction();
 
-int getFromFile(FILE *filem);
+int getFromFile(char *pathFilem);
 
-char* saveToFile(FILE *filem);
+char* saveToFile(char *pathFilem);

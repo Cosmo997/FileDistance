@@ -6,6 +6,8 @@
  */
 struct istructionData;
 
+typedef enum {ADD, DEL, SET} IstructionType;
+
 typedef struct istructionData IstructionData;
 
 #endif

@@ -3,7 +3,7 @@
 int nrighe = 0;
 int ncolonne = 0;
 int **matrix = NULL;
-int i = 0, j = 0;
+int i = 0, j = 0, curr = 0;
 
 
 
@@ -15,6 +15,7 @@ void complexityReduction(char *stringa1, char *stringa2);
 void initMatrix();
 void fillMatrix();
 void findEditPath();
+void recFind();
 void pmatrix();
 
 
@@ -25,7 +26,7 @@ void pmatrix();
 int levensthein_distance(char *stringa1, char *stringa2)
 {
     start_timer();
-
+    
     stringElaboration(stringa1, stringa2);
 
     if(nrighe == 0 && ncolonne == 0)
@@ -101,11 +102,45 @@ void fillMatrix(char *stringa1, char *stringa2)
     }
 }
 
-//TODO Da implementare
+
+
 void findEditPath()
 {
+    curr = matrix[nrighe][ncolonne];
+    recFind(nrighe, ncolonne);
     return ;
 }
+
+void recFind(int riga, int colonna)
+{   
+    if (curr != 0)
+    {
+        int app = min(matrix[riga][colonna-1],matrix[riga-1][colonna-1],matrix[riga-1][j]);
+        if (matrix[riga][colonna - 1] == app)
+        {
+            //TODO DELETE
+            curr = matrix[riga][colonna - 1];
+            recFind(riga, colonna -1);
+        }
+        else if(matrix[riga -1 ][colonna - 1] == app)
+        {
+            //TODO REPLACE
+            curr = matrix[riga - 1][colonna - 1];
+            recFind(riga - 1, colonna -1);
+        }
+        else
+        {
+            //TODO INSERT
+            curr = matrix[riga - 1][colonna];
+            recFind(riga -1, colonna);
+        }
+    }
+
+}
+
+
+
+
 
 //TODO Da implementare
 char* create_file_edit(FILE *output)
