@@ -14,7 +14,7 @@ void initMatrix();
 void fillMatrix();
 void findEditPath();
 void pmatrix();
-
+//TODO Aggiungere il metodo void complexotyReduction(char *stringa1, char *stringa2);
 
 
 //TODO ! Modificare tutto sto metodo
@@ -22,7 +22,9 @@ void pmatrix();
 //TODO ! Modificare leven per salvare le modifiche
 int levensthein_distance(char *stringa1, char *stringa2){
 
+    if(stringa1[strlen(stringa1)-1] == '\0')
     stringa1[strlen(stringa1)-1] = 0;
+    if(stringa2[strlen(stringa2)-1] == '\0')
     stringa2[strlen(stringa2)-1] = 0;
 
     start_timer();
@@ -111,16 +113,16 @@ void initMatrix()
 {
     matrix = (int**) malloc ((nrighe + 1) * sizeof(int*));
 
-    for ( i = 0; i < nrighe; i++)
+    for ( i = 0; i <= nrighe; i++)
     {
-        matrix[i] = (int*) malloc((ncolonne +1) * sizeof(int));
+        matrix[i] = (int*) malloc((ncolonne + 1) * sizeof(int));
     }
     
-    for ( i = 0; i < nrighe; i++)
+    for ( i = 0; i <= nrighe; i++)
     {
         matrix[i][0] = i;
     }
-    for ( i = 0; i < ncolonne; i++)
+    for ( i = 0; i <= ncolonne; i++)
     {
         matrix[j][i] = i;
     }
@@ -130,20 +132,26 @@ void initMatrix()
 
 void fillMatrix(char *stringa1, char *stringa2)
 {
-    
     for ( i = 1; i <= nrighe; i++)
     {
+        printf("\nControlli sulla lettera %c di %s: ", stringa1[i-1], stringa1);
         for ( j = 1; j <= ncolonne; j++)
         {
+            printf("\n\tControlli sulla lettera %c di %s: ", stringa2[j-1], stringa2);
             if(stringa1[i-1] != stringa2[j-1])
             {
-                printf("\nConfronto lettera %c con %c", stringa1[i-1],stringa2[j-1]);
+                printf("\n\tConfronto lettere diverse %c con %c", stringa1[i-1],stringa2[j-1]);
                 matrix[i][j] = minimum(matrix[i][j-1],matrix[i-1][j-1],matrix[i-1][j]) + 1;
+                printf("\n\tValori confrontati: %d - %d - %d ",matrix[i][j-1],matrix[i-1][j-1],matrix[i-1][j]);
+                printf("\n\tAggiunto il valore %d nella posizione [%d][%d]",minimum(matrix[i][j-1],matrix[i-1][j-1],matrix[i-1][j]) + 1, i, j);
             }
             else
             {
-                printf("\nConfronto lettera %c con %c", stringa1[i-1],stringa2[j-1]);
+                printf("\n\tConfronto lettere uguali %c con %c", stringa1[j-1],stringa2[i-1]);
                 matrix[i][j] = minimum(matrix[i][j-1],matrix[i-1][j-1],matrix[i-1][j]);
+                printf("\n\tValori confrontati: %d - %d - %d ",matrix[i][j-1],matrix[i-1][j-1],matrix[i-1][j]);
+                printf("\n\tAggiunto il valore %d nella posizione [%d][%d]",minimum(matrix[i][j-1],matrix[i-1][j-1],matrix[i-1][j]), i, j);
+
             }
             
         }
@@ -165,9 +173,9 @@ void prova()
 void pmatrix()
 {
     printf("\n");
-    for ( i = 0; i < nrighe; i++)
+    for ( i = 0; i <= nrighe; i++)
     {
-        for ( j = 0; j < ncolonne; j++)
+        for ( j = 0; j <= ncolonne; j++)
         {
             printf("%d\t", matrix[i][j]);
         }
