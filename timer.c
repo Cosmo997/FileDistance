@@ -1,4 +1,5 @@
-#include "time.h"
+#include "Lib/timer.h"
+
 
 time_t start, end;
 double execution_time;

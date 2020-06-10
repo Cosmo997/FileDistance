@@ -1,6 +1,6 @@
 #include "Lib/file_distance.h"
 #include "Lib/leven.h"
-#define MAXBUFLEN 10000
+#include "time.h"
 
 char * buffer1 = NULL;
 char * buffer2 = NULL;
@@ -28,7 +28,10 @@ int distance(char *path1, char *path2)
     if(buffersetter1(inputFile1) != 0 || buffersetter2(inputFile2) != 0)
     return 1;
     
-    stringCompare(buffer1, buffer2);
+
+    printf("EDIT DISTANCE: %d \n",levensthein_distance(buffer1, buffer2));
+    printf("TIME: %lf sec \n", getExecutionTime());
+
     free(buffer1);
     free(buffer2);
     return 0;

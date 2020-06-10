@@ -2,7 +2,7 @@
 #include <string.h>
 #include "Lib/file_distance.h"
 #include "Lib/leven.h"
-#include "Lib/time.h"
+#include "Lib/timer.h"
 
 //TODO Help
 
@@ -18,7 +18,8 @@ void help();
 /**
  * 
  * 
- * */
+ * 
+ */
 int main(int argc, char *argv[])
 {
     

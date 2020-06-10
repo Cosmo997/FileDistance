@@ -4,7 +4,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-// TODO Sostituire i FILE in input con stringhe
 // TODO ! Vedere come si gestiscono le cartelle
 
 /**
@@ -35,7 +34,6 @@ int apply(char *inputfile1, char *filem, char *outputfile);
  * che hanno una distanza da ​nputfile ​ minore o uguale di ​ limit ​ (che è un intero). 
  * I file vengono presentatinello standard output in ordine crescente secondo il seguente formato:
  * distanza pathassolutofile
- * 
  */
 // TODO int searchAll(FILE *inputfile1, DIRECTORY dir, int limit);
 

@@ -75,3 +75,10 @@ La valutazione del progetto verrà effettuata tenendo conto di:<br>
 ○ Media: fino ad un massimo di 1000 byte;<br>
 ○ Alta: fino ad un massimo di 10000 byte.<br>
 ● Qualità della relazione scritta.
+
+
+FILE prova1 = File che spinge il test verso la parte superiore della tabella
+FILE prova2 = File che spinge il test verso la parte sinistra della tabella
+FILE prova3 = File di grandi dimensioni
+FILE prova4 = File di piccole dimensioni
+FILE prova5 = File che testa n add in posizioni diverse

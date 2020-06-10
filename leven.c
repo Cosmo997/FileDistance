@@ -4,10 +4,8 @@ int nrighe = 0;
 int ncolonne = 0;
 int **matrix = NULL;
 int i = 0, j = 0, curr = 0;
-
-
-
-// ? filem bin? txt?
+char * verticale = NULL;
+char * orizzontale = NULL;
 
 int min(int a, int b, int c);
 void stringElaboration(char * stringa1, char * stringa2);
@@ -18,10 +16,7 @@ void findEditPath();
 void recFind();
 void pmatrix();
 
-
-//TODO Aggiungere il metodo void complexityReduction(char *stringa1, char *stringa2);
 //TODO Riportare i metodi privati nella lib con l'attributo static
-//TODO ! Modificare leven per salvare le modifiche
 
 int levensthein_distance(char *stringa1, char *stringa2)
 {
@@ -41,7 +36,7 @@ int levensthein_distance(char *stringa1, char *stringa2)
 
     pmatrix();
 
-    //findEditPath();
+    findEditPath();
 
     stop_timer();
 
@@ -54,13 +49,6 @@ int min(int a, int b, int c) {
     if (b < min) min = b;
     if (c < min) min = c;
     return min;
-}
-
-int stringCompare(char *x, char *y){
-    int distance = levensthein_distance(x, y);
-    printf("EDIT DISTANCE: %d \n", distance);
-    printf("TIME: %lf sec \n", getExecutionTime());
-    return distance;
 }
 
 void initMatrix()
@@ -78,7 +66,7 @@ void initMatrix()
     }
     for ( i = 0; i <= ncolonne; i++)
     {
-        matrix[j][i] = i;
+        matrix[0][i] = i;
     }
     
 }
@@ -102,45 +90,58 @@ void fillMatrix(char *stringa1, char *stringa2)
     }
 }
 
-
-
 void findEditPath()
 {
     curr = matrix[nrighe][ncolonne];
+    printf("\n\nCAMMINO ISTRUZIONI:\n");
     recFind(nrighe, ncolonne);
-    return ;
+    printf("\n\n");
 }
 
 void recFind(int riga, int colonna)
 {   
-    if (curr != 0)
+    if (curr != 0 && riga-1 >= 0 && colonna-1 >= 0)
     {
-        int app = min(matrix[riga][colonna-1],matrix[riga-1][colonna-1],matrix[riga-1][j]);
-        if (matrix[riga][colonna - 1] == app)
-        {
-            //TODO DELETE
-            curr = matrix[riga][colonna - 1];
-            recFind(riga, colonna -1);
-        }
-        else if(matrix[riga -1 ][colonna - 1] == app)
+        int app = min(matrix[riga][colonna-1],matrix[riga-1][colonna-1],matrix[riga-1][colonna]);
+        if(matrix[riga -1 ][colonna - 1] == app)
         {
             //TODO REPLACE
+            if (orizzontale[colonna - 1] != verticale[riga -1])
+            {
+                printf("\nSET%d%c",riga,orizzontale[colonna-1]);
+            }
+            
             curr = matrix[riga - 1][colonna - 1];
             recFind(riga - 1, colonna -1);
+        }
+        else if (matrix[riga][colonna - 1] == app)
+        {
+            //TODO DELETE
+            if(colonna - 1 >= 0){
+            if (orizzontale[colonna - 1] != verticale[riga -1])
+            {
+                printf("\nDEL%d", colonna);
+            }
+            curr = matrix[riga][colonna - 1];
+            recFind(riga, colonna -1);
+            }
         }
         else
         {
             //TODO INSERT
-            curr = matrix[riga - 1][colonna];
+            if(riga - 1 >= 0)
+            {
+            if (orizzontale[colonna - 1] != verticale[riga -1])
+            {
+                printf("\nADD%d%c",riga-1,verticale[riga-1]);
+            }
+            curr = matrix[riga-1][colonna];
             recFind(riga -1, colonna);
+            }
         }
     }
 
 }
-
-
-
-
 
 //TODO Da implementare
 char* create_file_edit(FILE *output)
@@ -155,10 +156,10 @@ void stringElaboration(char * stringa1, char * stringa2)
     if(stringa2[strlen(stringa2)-1] == '\0')
     stringa2[strlen(stringa2)-1] = 0;
     complexityReduction(stringa1, stringa2);
-
     nrighe = strlen(stringa1);
     ncolonne = strlen(stringa2);
-
+    verticale = stringa1;
+    orizzontale = stringa2;
 }
 
 void complexityReduction(char *stringa1, char *stringa2)
@@ -185,3 +186,7 @@ void pmatrix()
         printf("\n");
     }
 }
+
+
+
+
