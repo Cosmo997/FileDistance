@@ -1,38 +1,50 @@
-#ifdef istruction_structure_h
+#ifndef istruction_structure_h
 #define istruction_structure_h
-#include "istruction_data.h"
+
+#include <stdio.h>
+
+/**
+ * Enum contenente il tipo di modifica da apportare.
+ */
+typedef enum {ADD, DEL, SET} IstructionType;
+
+char* getIstructionName(IstructionType istr);
+
+
+/**
+ * Sotto-Struttura contenente le informazioni delle istruzioni che saranno utilizzate per apportare modifiche al file.
+ */
+struct istructionData
+{
+    /**
+     * Tipo di istruzione da apportare: ADD, SET o DEL
+     */
+    IstructionType istruction;
+    /**
+     * Unsigned int che indica la posizione in cui verrà apportata la modifica
+     */
+    int position;
+    /**
+     * Parametro utilizzato solamente nei metodi ADD e SET, che indica il nuovo valore che avrà la lettera nella posizione position
+     */
+    char letter;
+};
+typedef struct istructionData IstructionData;
 
 /**
  * MaxHeap contenente le istruzioni per la modifica del file.
  */
-struct istruction_structure
+struct MaxHeap
 {
-	unsigned int size; // Size of the allocated memory (in number of items)
-	unsigned int count; // Count of the elements in the heap
-	type *data; // Array with the elements
+    int size;
+    int count;
+    IstructionData *data;
 };
-
-typedef struct istruction_structure IstructionStructure;
-
+typedef struct MaxHeap MaxHeap;
 /**
- * Metodo che rende utilizzabile la structure
+ * Metodo che salva una lista in un file e ritorna il path del file.
  */
-int initStructure(struct istruction_structure);
-
-
-/**
- * Metodo che aggiunge un elemento all MaxHeap.
- * @return 0 Se l'operazione è stata completata 1 Se sono stati lanciati errori
- */
-int pushIstruction(IstructionData data);
-
-
-/**
- * Metodo che restituisce il primo elemento della lista, rimuovendolo da essa.
- */
-IstructionData popIstruction();
-
-void heapify(type data[], int count);
+char* saveToFile(FILE *filem);
 
 /**
  * Metodo che prende una lista da un file e ritorna 0 in caso di successo o 1 in caso di insuccesso.
@@ -40,10 +52,52 @@ void heapify(type data[], int count);
 int getFromFile(FILE *filem);
 
 /**
- * Metodo che salva una lista in un file e ritorna il path del file.
+ * Metodo che crea un IstructionData e lo restituisce.
  */
-char* saveToFile(FILE *filem);
+IstructionData* createData(IstructionType istruction, int position, char letter);
+
+/**
+ * Metodo che rende utilizzabile la structure e la restituisce.
+ */
+MaxHeap* initStructure(int size, int count);
 
 
+/**
+ * Metodo che aggiunge un elemento all MaxHeap.
+ * @return 0 Se l'operazione è stata completata 1 Se sono stati lanciati errori
+ */
+void pushIstruction(MaxHeap *hp, IstructionType istr, int pos, char lett);
+
+/**
+ * Metodo che restituisce il primo elemento della lista, rimuovendolo da essa.
+ */
+IstructionData popIstruction();
+
+/**
+ * Metodo che restituisce l'indice del figlio sinistro dell'IstructionData.
+ */
+int getLeft(int x);
+
+/**
+ * Metodo che restituisce l'indice del figlio destro dell'IstructionData.
+ */
+int getRight(int x);
+
+/**
+ * Metodo che restituisce l'indice del parent dell'IstructionData.
+ */
+int getParent(int x);
+
+/**
+ * Metodo che mantiene le proprietà del MaxHeap.
+ */
+void maxHeapify(MaxHeap *h, int index);
+
+/**
+ * Dealloca la memoria utilizzata dall'Heap.
+ */
+void freeHeap(MaxHeap heap);
+
+void heapPrint(MaxHeap *h);
 
 #endif

@@ -34,7 +34,7 @@ int levensthein_distance(char *stringa1, char *stringa2)
 
     fillMatrix(stringa1, stringa2);
 
-    pmatrix();
+    //pmatrix();
 
     findEditPath();
 
@@ -116,19 +116,7 @@ void recFind(int riga, int colonna)
         }
         else if (matrix[riga][colonna - 1] == app)
         {
-            //TODO DELETE
-            if(colonna - 1 >= 0){
-            if (orizzontale[colonna - 1] != verticale[riga -1])
-            {
-                printf("\nDEL%d", colonna);
-            }
-            curr = matrix[riga][colonna - 1];
-            recFind(riga, colonna -1);
-            }
-        }
-        else
-        {
-            //TODO INSERT
+             //TODO INSERT
             if(riga - 1 >= 0)
             {
             if (orizzontale[colonna - 1] != verticale[riga -1])
@@ -137,6 +125,18 @@ void recFind(int riga, int colonna)
             }
             curr = matrix[riga-1][colonna];
             recFind(riga -1, colonna);
+            }
+        }
+        else
+        {
+           //TODO DELETE
+            if(colonna - 1 >= 0){
+            if (orizzontale[colonna - 1] != verticale[riga -1])
+            {
+                printf("\nDEL%d", colonna);
+            }
+            curr = matrix[riga][colonna - 1];
+            recFind(riga, colonna -1);
             }
         }
     }
