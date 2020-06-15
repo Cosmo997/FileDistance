@@ -44,12 +44,12 @@ typedef struct MaxHeap MaxHeap;
 /**
  * Metodo che salva una lista in un file e ritorna il path del file.
  */
-char* saveToFile(FILE *filem);
+char* saveToFile(MaxHeap *h,FILE *filem);
 
 /**
  * Metodo che prende una lista da un file e ritorna 0 in caso di successo o 1 in caso di insuccesso.
  */
-int getFromFile(FILE *filem);
+int getFromFile(MaxHeap *h,FILE *filem);
 
 /**
  * Metodo che crea un IstructionData e lo restituisce.

@@ -1,4 +1,5 @@
 #include "Lib/leven.h"
+#include "Lib/istruction_structure.h"
 
 int nrighe = 0;
 int ncolonne = 0;
@@ -6,6 +7,7 @@ int **matrix = NULL;
 int i = 0, j = 0, curr = 0;
 char * verticale = NULL;
 char * orizzontale = NULL;
+MaxHeap *hp = NULL;
 
 int min(int a, int b, int c);
 void stringElaboration(char * stringa1, char * stringa2);
@@ -92,9 +94,11 @@ void fillMatrix(char *stringa1, char *stringa2)
 
 void findEditPath()
 {
+    hp = initStructure(1,0);
     curr = matrix[nrighe][ncolonne];
     printf("\n\nCAMMINO ISTRUZIONI:\n");
     recFind(nrighe, ncolonne);
+    heapPrint(hp);
     printf("\n\n");
 }
 
@@ -108,19 +112,21 @@ void recFind(int riga, int colonna)
             //TODO REPLACE
             if (orizzontale[colonna - 1] != verticale[riga -1])
             {
+                pushIstruction(hp, SET, riga, orizzontale[colonna-1]);
                 printf("\nSET%d%c",riga,orizzontale[colonna-1]);
             }
             
             curr = matrix[riga - 1][colonna - 1];
             recFind(riga - 1, colonna -1);
         }
-        else if (matrix[riga][colonna - 1] == app)
+        else if (matrix[riga -1][colonna] == app)
         {
              //TODO INSERT
             if(riga - 1 >= 0)
             {
             if (orizzontale[colonna - 1] != verticale[riga -1])
             {
+                pushIstruction(hp, ADD, riga-1, verticale[riga-1]);
                 printf("\nADD%d%c",riga-1,verticale[riga-1]);
             }
             curr = matrix[riga-1][colonna];
@@ -133,6 +139,7 @@ void recFind(int riga, int colonna)
             if(colonna - 1 >= 0){
             if (orizzontale[colonna - 1] != verticale[riga -1])
             {
+                pushIstruction(hp, DEL, colonna,NULL);
                 printf("\nDEL%d", colonna);
             }
             curr = matrix[riga][colonna - 1];
