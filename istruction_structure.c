@@ -1,28 +1,17 @@
 #include "Lib/istruction_structure.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-
-void recHeapy(MaxHeap *h, int index);
-
-void swap(MaxHeap * hp, int uno, int due);
-
-
-IstructionData* createData(IstructionType istr, int pos, char lett)
-{
-    IstructionData* x = malloc(sizeof(IstructionData));
-    x->istruction = istr;
-    x->position = pos;
-    x->letter = lett;
-    return x;
-}
 
 MaxHeap* initStructure(int size, int count)
 {
     MaxHeap *hp = malloc(sizeof(MaxHeap));
+    hp->count = malloc(sizeof(int));
+    hp->size = malloc(sizeof(int));
+    hp->data = malloc(sizeof(IstructionData) * size);
     hp->count = count;
     hp->size = size;
-    hp->data = malloc(sizeof(IstructionData) * size);
     return hp ;
 }
 
@@ -94,7 +83,7 @@ void heapPrint(MaxHeap *h)
 {
     if(h->count == 0) return;
 
-    printf("\nSize: %d", h->size);
+    printf("\n\nMaxHeap:\nSize: %d", h->size);
     printf("\nCount: %d", h->count);
     for (int i = 0; i < h->count; i++)
     {
@@ -110,6 +99,24 @@ char* getIstructionName(IstructionType istr)
       case ADD: return "ADD";
       case SET: return "SET";
    }
+}
+
+IstructionType getIstructionByC(char x)
+{
+    switch (x)
+    {
+    case 'A':
+        return ADD;
+        break;
+    case 'S':
+        return SET;
+        break;
+    case 'D':
+        return DEL;
+        break;
+    default:
+        break;
+    }
 }
 
 void maxHeapify(MaxHeap *h, int index)
@@ -128,14 +135,71 @@ void maxHeapify(MaxHeap *h, int index)
     
     if (bigger != index) 
     { 
-        printf("\nEntrato if\n");
         swap(h, index, bigger); 
         maxHeapify(h,bigger);
     } 
 }
 
-char* saveToFile(MaxHeap *h,FILE *filem);
+char* saveToFile(MaxHeap *h, char * path)
+{
+    FILE *filem = fopen(path, "wb+");
+    if(filem == NULL)
+        return NULL;
 
-int getFromFile(MaxHeap *h,FILE *filem);
+    while(h->count != 0)
+    {
+        IstructionData app = popIstruction(h);
+        char * istr = getIstructionName(app.istruction);
+        int pos = app.position;
 
-void freeHeap(MaxHeap heap);
+        printf("\n%c  %c  %c\n", istr[0], istr[1], istr[2]);
+        fwrite(&istr[0], sizeof(char), 1, filem);
+        fwrite(&istr[1], sizeof(char), 1, filem);
+        fwrite(&istr[2], sizeof(char), 1, filem);
+        fwrite(&pos, sizeof(unsigned int), 1,filem);
+        if(app.istruction != DEL)
+        {
+        fwrite(&app.letter,sizeof(char),1,filem);
+        }
+     }
+     fclose(filem);
+     return path;
+
+}
+
+int getFromFile(MaxHeap *h, char * path)
+{
+    FILE *filem = fopen("File/prova.bin","rb");
+    char istr = NULL;
+    int pos = NULL;
+    char letter = NULL;
+    do
+    {
+        fread(istr,sizeof(char),1,filem);
+        fseek(filem,2,SEEK_CUR);
+        fread(pos, sizeof(unsigned int),1, filem);
+        if(istr != 'D')
+        fread(letter, sizeof(char),1,filem);
+        pushIstruction(h,getIstructionByC(istr), pos, letter);
+
+    } while (ftell(SEEK_CUR) != ftell(SEEK_END));
+    
+
+}
+
+void freeHeap(MaxHeap heap)
+{
+    
+}
+
+IstructionData* getOrderedArray(MaxHeap * h)
+{
+    IstructionData * toReturn = malloc(sizeof(IstructionData) * h->count);
+    for (int i = 0; i < h->count; i++)
+    {
+        toReturn[i] = popIstruction(h);
+    }
+    return toReturn;
+    
+}
+

@@ -5,52 +5,42 @@
 char * buffer1 = NULL;
 char * buffer2 = NULL;
 long length;
+FILE *inputFile1 = NULL;
+FILE *inputFile2 = NULL;
 
+// TODO Rimuovere variabili globali
+void initData(char * path1, char * path2);
+void freeData();
 int buffersetter1(FILE *input);
 int buffersetter2(FILE *input);
 
 int distance(char *path1, char *path2)
 {
-    FILE *inputFile1 = fopen(path1,"r");
-    if(inputFile1 == NULL)
-    {
-        perror("\nErrore nell'apertura del primo file\n");
-        return 1;
-    }
-    
-    FILE *inputFile2 = fopen(path2,"r");
-    if(inputFile2 == NULL)
-    {
-        perror("\nErrore nell'apertura del secondo file\n");
-        return 1;
-    }
-    
-    if(buffersetter1(inputFile1) != 0 || buffersetter2(inputFile2) != 0)
-    return 1;
-    
-
+    initData(path1, path2);
     printf("EDIT DISTANCE: %d \n",levensthein_distance(buffer1, buffer2));
     printf("TIME: %lf sec \n", getExecutionTime());
-
-    free(buffer1);
-    free(buffer2);
+    freeData();
     return 0;
 }
-//TODO da implementare
-int distance_out(char *inputfile1, char *filem, char *outputfile)
+
+char* distance_out(char *path1, char *path2, char *outputfile)
 {
-
-    return 0;
+    initData(path1, path2);
+    printf("EDIT DISTANCE: %d \n",levensthein_distance(buffer1, buffer2));
+    printf("TIME: %lf sec \n", getExecutionTime());
+    create_file_edit(outputfile);
+    freeData();
+    return outputfile;
 }
+
 //TODO da implementare
 int apply(char *inputfile1, char *filem, char *outputfile)
 {
-
-    return 0;
+    changeApply(inputfile1, filem, outputfile);
+    return 1;
 }
 
 //TODO rimuovere codice ripetuto
-
 int buffersetter1(FILE *input)
 {   
     fseek(input, 0L, SEEK_END);
@@ -76,4 +66,29 @@ int buffersetter2(FILE *input)
     return 0;
     }
     else return 1;
+}
+
+void initData(char * path1, char * path2)
+{
+    inputFile1 = fopen(path1,"r");
+    if(inputFile1 == NULL)
+    {
+        perror("\nErrore nell'apertura del primo file\n");
+    }
+    
+    inputFile2 = fopen(path2,"r");
+    if(inputFile2 == NULL)
+    {
+        perror("\nErrore nell'apertura del secondo file\n");
+    }
+    
+    buffersetter1(inputFile1); 
+    buffersetter2(inputFile2);
+}
+void freeData()
+{
+    free(buffer1);
+    free(buffer2);
+    fclose(inputFile1);
+    fclose(inputFile2);
 }

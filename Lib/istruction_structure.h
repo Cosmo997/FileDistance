@@ -8,7 +8,11 @@
  */
 typedef enum {ADD, DEL, SET} IstructionType;
 
+/**
+ * 
+ */
 char* getIstructionName(IstructionType istr);
+
 
 
 /**
@@ -31,6 +35,9 @@ struct istructionData
 };
 typedef struct istructionData IstructionData;
 
+
+
+
 /**
  * MaxHeap contenente le istruzioni per la modifica del file.
  */
@@ -41,15 +48,21 @@ struct MaxHeap
     IstructionData *data;
 };
 typedef struct MaxHeap MaxHeap;
+
 /**
  * Metodo che salva una lista in un file e ritorna il path del file.
  */
-char* saveToFile(MaxHeap *h,FILE *filem);
+char* saveToFile(MaxHeap *h, char * path);
 
 /**
  * Metodo che prende una lista da un file e ritorna 0 in caso di successo o 1 in caso di insuccesso.
  */
-int getFromFile(MaxHeap *h,FILE *filem);
+int getFromFile(MaxHeap *h, char * path);
+
+/**
+ * 
+ */
+IstructionData* getOrderedArray(MaxHeap * h);
 
 /**
  * Metodo che crea un IstructionData e lo restituisce.
@@ -60,7 +73,6 @@ IstructionData* createData(IstructionType istruction, int position, char letter)
  * Metodo che rende utilizzabile la structure e la restituisce.
  */
 MaxHeap* initStructure(int size, int count);
-
 
 /**
  * Metodo che aggiunge un elemento all MaxHeap.
@@ -97,6 +109,11 @@ void maxHeapify(MaxHeap *h, int index);
  * Dealloca la memoria utilizzata dall'Heap.
  */
 void freeHeap(MaxHeap heap);
+
+/**
+ * 
+ */
+static void swap(MaxHeap * hp, int uno, int due);
 
 void heapPrint(MaxHeap *h);
 

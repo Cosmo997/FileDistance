@@ -9,16 +9,6 @@ char * verticale = NULL;
 char * orizzontale = NULL;
 MaxHeap *hp = NULL;
 
-int min(int a, int b, int c);
-void stringElaboration(char * stringa1, char * stringa2);
-void complexityReduction(char *stringa1, char *stringa2);
-void initMatrix();
-void fillMatrix();
-void findEditPath();
-void recFind();
-void pmatrix();
-
-//TODO Riportare i metodi privati nella lib con l'attributo static
 
 int levensthein_distance(char *stringa1, char *stringa2)
 {
@@ -109,7 +99,7 @@ void recFind(int riga, int colonna)
         int app = min(matrix[riga][colonna-1],matrix[riga-1][colonna-1],matrix[riga-1][colonna]);
         if(matrix[riga -1 ][colonna - 1] == app)
         {
-            //TODO REPLACE
+            // REPLACE
             if (orizzontale[colonna - 1] != verticale[riga -1])
             {
                 pushIstruction(hp, SET, riga, orizzontale[colonna-1]);
@@ -121,7 +111,7 @@ void recFind(int riga, int colonna)
         }
         else if (matrix[riga -1][colonna] == app)
         {
-             //TODO INSERT
+             // INSERT
             if(riga - 1 >= 0)
             {
             if (orizzontale[colonna - 1] != verticale[riga -1])
@@ -135,11 +125,11 @@ void recFind(int riga, int colonna)
         }
         else
         {
-           //TODO DELETE
+           // DELETE
             if(colonna - 1 >= 0){
             if (orizzontale[colonna - 1] != verticale[riga -1])
             {
-                pushIstruction(hp, DEL, colonna,NULL);
+                pushIstruction(hp, DEL, colonna,(char *)NULL);
                 printf("\nDEL%d", colonna);
             }
             curr = matrix[riga][colonna - 1];
@@ -150,10 +140,12 @@ void recFind(int riga, int colonna)
 
 }
 
-//TODO Da implementare
-char* create_file_edit(FILE *output)
+char* create_file_edit(char * path)
 {
+    if(hp == NULL)
     return 0;
+    return saveToFile(hp, path);
+    
 }
 
 void stringElaboration(char * stringa1, char * stringa2)
@@ -181,18 +173,6 @@ void complexityReduction(char *stringa1, char *stringa2)
     else return;
 }
 
-void pmatrix()
-{
-    printf("\n");
-    for ( i = 0; i <= nrighe; i++)
-    {
-        for ( j = 0; j <= ncolonne; j++)
-        {
-            printf("%d\t", matrix[i][j]);
-        }
-        printf("\n");
-    }
-}
 
 
 

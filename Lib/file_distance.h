@@ -16,10 +16,10 @@ int distance(char *inputfile1, char *inputfile2);
 /**
  * Metodo che salva nel file ​output la sequenza delle istruzioni necessarie per trasformare il primo file nel secondo.
  */
-int distance_out(char *inputfile1, char *filem, char *outputfile);
+char * distance_out(char *inputfile1, char *filem, char *outputfile);
 
 /**
- * Applica a ​ inputfile l ​ e modifiche contenute nel file ​ filem ​ e salva il risultato nel file ​ outputfile ​ .
+ * Applica a ​inputfile le modifiche contenute nel file ​filem ​e salva il risultato nel file ​outputfile ​ .
  */
 int apply(char *inputfile1, char *filem, char *outputfile);
 

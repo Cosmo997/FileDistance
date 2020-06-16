@@ -1,9 +1,10 @@
 CC = gcc
+FLAGS = -Wno-pointer-to-int-
 OBJ = mainProva.o franco.o
 EXEC = prova
 
 $(EXEC): $(OBJ)
-	$(CC) -o $@ $(OBJ)
+	$(CC) $(FLAGS) -o $@ $(OBJ)
 
 franco.o : franco.h franco.c
 
