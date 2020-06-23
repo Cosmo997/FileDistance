@@ -37,5 +37,6 @@ int apply(char *inputfile1, char *filem, char *outputfile);
  */
 // TODO int searchAll(FILE *inputfile1, DIRECTORY dir, int limit);
 
+char * getStringFromFile(char * input);
 
 #endif 

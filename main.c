@@ -4,12 +4,18 @@
 #include "Lib/leven.h"
 #include "Lib/timer.h"
 
+//TODO Aggiungere tutte le free
+//TODO Aggiungere tutti gli fclose
+
 
 void help();
 
 /**
  * 
- * 
+ * test: 
+ * ./filedistance distance File/datrasformare.txt File/finale.txt File/prova.bin 
+ * ./filedistance apply File/datrasformare.txt File/prova.bin File/nuovo.txt 
+ * ./filedistance distance File/provauno File/nuovo.txt
  * 
  */
 int main(int argc, char *argv[])
@@ -34,6 +40,7 @@ int main(int argc, char *argv[])
         }
         if (argc == 5)
         {
+             printf("qui");
             if (distance_out(argv[2], argv[3], argv[4]) != 0)
                 return 1;
             return 0;

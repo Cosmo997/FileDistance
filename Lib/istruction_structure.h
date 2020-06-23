@@ -14,7 +14,7 @@ typedef enum {ADD, DEL, SET} IstructionType;
 char* getIstructionName(IstructionType istr);
 
 
-
+//TODO adattare tutto con unsigned int
 /**
  * Sotto-Struttura contenente le informazioni delle istruzioni che saranno utilizzate per apportare modifiche al file.
  */

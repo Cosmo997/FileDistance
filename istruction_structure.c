@@ -7,9 +7,7 @@
 MaxHeap* initStructure(int size, int count)
 {
     MaxHeap *hp = malloc(sizeof(MaxHeap));
-    hp->count = malloc(sizeof(int));
-    hp->size = malloc(sizeof(int));
-    hp->data = malloc(sizeof(IstructionData) * size);
+    hp->data = (IstructionData *)malloc(sizeof(IstructionData) * size);
     hp->count = count;
     hp->size = size;
     return hp ;
@@ -114,8 +112,6 @@ IstructionType getIstructionByC(char x)
     case 'D':
         return DEL;
         break;
-    default:
-        break;
     }
 }
 
@@ -145,18 +141,18 @@ char* saveToFile(MaxHeap *h, char * path)
     FILE *filem = fopen(path, "wb+");
     if(filem == NULL)
         return NULL;
-
+    
     while(h->count != 0)
     {
         IstructionData app = popIstruction(h);
         char * istr = getIstructionName(app.istruction);
         int pos = app.position;
 
-        printf("\n%c  %c  %c\n", istr[0], istr[1], istr[2]);
+        //printf("\n%c  %c  %c\n", istr[0], istr[1], istr[2]);
         fwrite(&istr[0], sizeof(char), 1, filem);
         fwrite(&istr[1], sizeof(char), 1, filem);
         fwrite(&istr[2], sizeof(char), 1, filem);
-        fwrite(&pos, sizeof(unsigned int), 1,filem);
+        fwrite(&pos, sizeof(int), 1,filem);
         if(app.istruction != DEL)
         {
         fwrite(&app.letter,sizeof(char),1,filem);
@@ -169,27 +165,26 @@ char* saveToFile(MaxHeap *h, char * path)
 
 int getFromFile(MaxHeap *h, char * path)
 {
-    FILE *filem = fopen("File/prova.bin","rb");
-    char istr = NULL;
-    int pos = NULL;
-    char letter = NULL;
+    FILE *filem = fopen(path,"rb");
+    char istr;
+    int pos;
+    char letter = '0';
+    int nread = 0;
     do
     {
-        fread(istr,sizeof(char),1,filem);
+        
+        nread = fread(&istr,sizeof(char),1,filem);
+        if(nread != 0)
+        {
         fseek(filem,2,SEEK_CUR);
-        fread(pos, sizeof(unsigned int),1, filem);
+        fread(&pos, sizeof(int),1, filem);
         if(istr != 'D')
-        fread(letter, sizeof(char),1,filem);
+        fread(&letter, sizeof(char),1,filem);
         pushIstruction(h,getIstructionByC(istr), pos, letter);
-
-    } while (ftell(SEEK_CUR) != ftell(SEEK_END));
-    
-
-}
-
-void freeHeap(MaxHeap heap)
-{
-    
+        }
+    } while (!feof(filem));
+    fclose(filem);
+    return 0;
 }
 
 IstructionData* getOrderedArray(MaxHeap * h)
