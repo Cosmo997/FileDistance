@@ -1,15 +1,16 @@
 #include "Lib/istruction_structure.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
+/**
+ * Scambia i valori alla posizione uno e due del MaxHeap.
+ */
+void swap(MaxHeap * hp, int uno, int due);
 
-MaxHeap* initStructure(int size, int count)
+MaxHeap* initStructure()
 {
     MaxHeap *hp = malloc(sizeof(MaxHeap));
-    hp->data = (IstructionData *)malloc(sizeof(IstructionData) * size);
-    hp->count = count;
-    hp->size = size;
+    hp->data = (IstructionData *)malloc(sizeof(IstructionData*));
+    hp->count = 0;
+    hp->size = 1;
     return hp ;
 }
 
@@ -21,7 +22,6 @@ void pushIstruction(MaxHeap *hp, IstructionType istr, int pos, char lett)
     x.letter = lett;
     if (hp->count == hp->size)
 	{
-        //TODO rimuovere la realloc
 		hp->size++;
 		hp->data = realloc(hp->data, sizeof(IstructionData) * hp->size);
 		if (!hp->data) printf("ERRORE"); 
@@ -70,13 +70,6 @@ void swap(MaxHeap * hp, int uno, int due)
     hp->data[due] = temp;
 }
 
-int posCompare(int pos1, int pos2)
-{
-    if(pos1 > pos2)
-        return pos1;
-    return pos2;
-}
-
 void heapPrint(MaxHeap *h)
 {
     if(h->count == 0) return;
@@ -111,6 +104,9 @@ IstructionType getIstructionByC(char x)
         break;
     case 'D':
         return DEL;
+        break;
+    default:
+        return 0;
         break;
     }
 }
@@ -147,8 +143,6 @@ char* saveToFile(MaxHeap *h, char * path)
         IstructionData app = popIstruction(h);
         char * istr = getIstructionName(app.istruction);
         int pos = app.position;
-
-        //printf("\n%c  %c  %c\n", istr[0], istr[1], istr[2]);
         fwrite(&istr[0], sizeof(char), 1, filem);
         fwrite(&istr[1], sizeof(char), 1, filem);
         fwrite(&istr[2], sizeof(char), 1, filem);
@@ -165,7 +159,13 @@ char* saveToFile(MaxHeap *h, char * path)
 
 int getFromFile(MaxHeap *h, char * path)
 {
-    FILE *filem = fopen(path,"rb");
+    FILE *filem = NULL;
+    filem = fopen(path,"rb");
+    if (filem == NULL)
+    {
+        return -1;
+    }
+    
     char istr;
     int pos;
     char letter = '0';
@@ -189,7 +189,7 @@ int getFromFile(MaxHeap *h, char * path)
 
 IstructionData* getOrderedArray(MaxHeap * h)
 {
-    IstructionData * toReturn = malloc(sizeof(IstructionData) * h->count);
+    IstructionData * toReturn = malloc(sizeof(IstructionData*) * h->count);
     for (int i = 0; i < h->count; i++)
     {
         toReturn[i] = popIstruction(h);

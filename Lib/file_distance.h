@@ -1,42 +1,41 @@
-#ifndef file_distance_h
-#define file_distance_h
-
+#ifndef filedistance_h
+#define filedistance_h
 
 #include <stdio.h>
-#include <stdlib.h>
-// TODO ! Vedere come si gestiscono le cartelle
+#include "istruction_structure.h"
+#include "file_handler.h"
+#include "leven.h"
+#include "timer.h"
+#include "finder.h"
 
 /**
- * Metodo che calcola la distanza dal file e generato un output della seguente forma:
- * EDIT DISTANCE: ​ distanza
- * TIME: ​ tempo di calcolo
+ * Funzione che restituisce la distanza di edit tra le due stringhe ricevute in ingresso.
  */
-int distance(char *inputfile1, char *inputfile2);
+int distance(char *toModify, char *finalResault);
 
 /**
- * Metodo che salva nel file ​output la sequenza delle istruzioni necessarie per trasformare il primo file nel secondo.
+* Funzione che restituisce la distanza di edit tra le due stringhe ricevute in ingresso e salva le istruzioni, ordinate in modo decrecente, sul file con path outputfilePath
  */
-char * distance_out(char *inputfile1, char *filem, char *outputfile);
+int distanceOutput(char *toModify, char *finalResault, char *outputfilePath);
 
 /**
- * Applica a ​inputfile le modifiche contenute nel file ​filem ​e salva il risultato nel file ​outputfile ​ .
+ * Applica al file toModify le istruzioni contenute su film, e salva il risultato su outputfile
  */
-int apply(char *inputfile1, char *filem, char *outputfile);
+int apply(char * toModify, char * filem, char * outputfile);
 
 /**
- * Restituisce in output i file contenuti in ​ dir ​(e nelle sue sottodirectory) che hanno minima distanza da ​inputfile.
- * Il path assoluto di ogni file viene presentato in una riga dello ​standard output. 
+ * Restituisce in output i file contenuti in ​dir ​(e nelle sue sottodirectory) che hanno minima 
+ * distanza da ​inputfile. ​ Il path assoluto di ogni file viene presentato in una riga dello standard
+ * output.
  */
-// TODO int search(FILE *inputfile1, DIRECTORY dir);
+int search(char *inputfile, char * dir);
 
 /**
- * Vengono restituiti in output tutti i file contenuti in dir (e nelle sue sottodirectory)
- * che hanno una distanza da ​nputfile ​ minore o uguale di ​ limit ​ (che è un intero). 
- * I file vengono presentatinello standard output in ordine crescente secondo il seguente formato:
+ * Vengono restituiti in output tutti i file contenuti in dir (e nelle sue sottodirectory) che hanno 
+ * una distanza da ​ inputfile ​ minore o uguale di ​limit (che è un intero). I file vengono presentati
+ * nello standard output in ordine crescente secondo il seguente formato:
  * distanza pathassolutofile
  */
-// TODO int searchAll(FILE *inputfile1, DIRECTORY dir, int limit);
+int searchAll(char * inputfile, char * dir, int limit);
 
-char * getStringFromFile(char * input);
-
-#endif 
+#endif

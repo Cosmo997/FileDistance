@@ -2,6 +2,8 @@
 #define istruction_structure_h
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 /**
  * Enum contenente il tipo di modifica da apportare.
@@ -9,12 +11,11 @@
 typedef enum {ADD, DEL, SET} IstructionType;
 
 /**
- * 
+ * Restituisce la stringa che identifica una determinata istruzione
  */
-char* getIstructionName(IstructionType istr);
+char * getIstructionName(IstructionType istr);
 
 
-//TODO adattare tutto con unsigned int
 /**
  * Sotto-Struttura contenente le informazioni delle istruzioni che saranno utilizzate per apportare modifiche al file.
  */
@@ -35,73 +36,78 @@ struct istructionData
 };
 typedef struct istructionData IstructionData;
 
-
-
-
 /**
  * MaxHeap contenente le istruzioni per la modifica del file.
  */
 struct MaxHeap
 {
+    /**
+     * Grandezza del MaxHeap
+     */
     int size;
+    /**
+     * Numero di elementi presenti al suo interno
+     */
     int count;
+    /**
+     * Istruzione contenuta
+     */
     IstructionData *data;
 };
 typedef struct MaxHeap MaxHeap;
 
 /**
- * Metodo che salva una lista in un file e ritorna il path del file.
+ * Salva una lista in un file e ritorna il path del file.
  */
 char* saveToFile(MaxHeap *h, char * path);
 
 /**
- * Metodo che prende una lista da un file e ritorna 0 in caso di successo o 1 in caso di insuccesso.
+ * Prende una lista da un file e ritorna 0 in caso di successo o 1 in caso di insuccesso.
  */
 int getFromFile(MaxHeap *h, char * path);
 
 /**
- * 
+ * Restituisce un array ordinato in modo crescenti contenente le istruzioni.
  */
 IstructionData* getOrderedArray(MaxHeap * h);
 
 /**
- * Metodo che crea un IstructionData e lo restituisce.
+ * Crea un IstructionData e lo restituisce.
  */
 IstructionData* createData(IstructionType istruction, int position, char letter);
 
 /**
- * Metodo che rende utilizzabile la structure e la restituisce.
+ * Rende utilizzabile la structure e la restituisce.
  */
-MaxHeap* initStructure(int size, int count);
+MaxHeap* initStructure(void);
 
 /**
- * Metodo che aggiunge un elemento all MaxHeap.
- * @return 0 Se l'operazione è stata completata 1 Se sono stati lanciati errori
+ * Aggiunge un elemento all MaxHeap.
  */
 void pushIstruction(MaxHeap *hp, IstructionType istr, int pos, char lett);
 
 /**
- * Metodo che restituisce il primo elemento della lista, rimuovendolo da essa.
+ * Restituisce il primo elemento della lista, rimuovendolo da essa.
  */
-IstructionData popIstruction();
+IstructionData popIstruction(MaxHeap * hp);
 
 /**
- * Metodo che restituisce l'indice del figlio sinistro dell'IstructionData.
+ * Restituisce l'indice del figlio sinistro dell'IstructionData.
  */
 int getLeft(int x);
 
 /**
- * Metodo che restituisce l'indice del figlio destro dell'IstructionData.
+ * Restituisce l'indice del figlio destro dell'IstructionData.
  */
 int getRight(int x);
 
 /**
- * Metodo che restituisce l'indice del parent dell'IstructionData.
+ * Restituisce l'indice del parent dell'IstructionData.
  */
 int getParent(int x);
 
 /**
- * Metodo che mantiene le proprietà del MaxHeap.
+ * Mantiene le proprietà del MaxHeap.
  */
 void maxHeapify(MaxHeap *h, int index);
 
@@ -110,11 +116,10 @@ void maxHeapify(MaxHeap *h, int index);
  */
 void freeHeap(MaxHeap heap);
 
-/**
- * 
- */
-static void swap(MaxHeap * hp, int uno, int due);
 
+/**
+ * Stampa l'heap.Utilizzato in debug
+ */
 void heapPrint(MaxHeap *h);
 
 #endif

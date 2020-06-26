@@ -1,31 +1,17 @@
 
 #include <string.h>
+#include <stdlib.h>
 #include "Lib/file_distance.h"
-#include "Lib/leven.h"
-#include "Lib/timer.h"
 
-//TODO Aggiungere tutte le free
-//TODO Aggiungere tutti gli fclose
+void help(void);
 
 
-void help();
-
-/**
- * 
- * test: 
- * ./filedistance distance File/datrasformare.txt File/finale.txt File/prova.bin 
- * ./filedistance apply File/datrasformare.txt File/prova.bin File/nuovo.txt 
- * ./filedistance distance File/provauno File/nuovo.txt
- * 
- */
 int main(int argc, char *argv[])
 {
     if (argc < 3)
     {
         help();
-        return 0;
     }
-    
     if (strcasecmp(argv[1], "distance") == 0)
     {
         if (argc == 3)
@@ -34,33 +20,26 @@ int main(int argc, char *argv[])
         }
         if (argc == 4)
         {
-            if (distance(argv[2], argv[3]) != 0)
-                return 1;
-            return 0;
+            distance(argv[2], argv[3]);
+             
         }
         if (argc == 5)
         {
-             printf("qui");
-            if (distance_out(argv[2], argv[3], argv[4]) != 0)
-                return 1;
-            return 0;
+            distanceOutput(argv[2], argv[3], argv[4]);
         }
     }
     else if (strcasecmp(argv[1], "apply") == 0)
     {
-        if (apply(argv[2], argv[3], argv[4]) != 0)
-            return 1;
-        return 0;
+        apply(argv[2], argv[3], argv[4]);
     }
     else if (strcasecmp(argv[1], "search") == 0)
     {
-        // TODO search(argv[2], argv[3]);
-        return 0;
+        search(argv[2], argv[3]);
+        
     }
     else if (strcasecmp(argv[1], "searchAll") == 0)
     {
-        // TODO searchAll(argv[2], argv[3], argv[4]);
-        return 0;
+        searchAll(argv[2], argv[3], atoi(argv[4]));
     }
     else
     {
