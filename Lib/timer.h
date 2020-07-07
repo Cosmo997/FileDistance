@@ -1,8 +1,7 @@
 #ifndef timer_h
 #define timer_h
 
-#include <stdio.h>
-#include <time.h>
+
 
 /**
  * Avvia il timer.

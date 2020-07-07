@@ -1,4 +1,7 @@
 #include "Lib/istruction_structure.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 /**
  * Scambia i valori alla posizione uno e due del MaxHeap.
@@ -16,18 +19,20 @@ MaxHeap* initStructure()
 
 void pushIstruction(MaxHeap *hp, IstructionType istr, int pos, char lett)
 {
-    IstructionData x;
-    x.istruction = istr;
-    x.position = pos;
-    x.letter = lett;
+    IstructionData * x;
+    x->istruction = istr;
+    x->position = pos;
+    x->letter = lett;
+
     if (hp->count == hp->size)
 	{
 		hp->size++;
-		hp->data = realloc(hp->data, sizeof(IstructionData) * hp->size);
+		hp->data = realloc(hp->data, sizeof(IstructionData*) * hp->size);
 		if (!hp->data) printf("ERRORE"); 
 	}
     
-    hp->data[hp->count] = x;
+    hp->data[hp->count] = (*x);
+
     int i = hp->count;
     while (i>1 && hp->data[getParent(i)].position < hp->data[i].position)
     {

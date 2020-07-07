@@ -1,4 +1,11 @@
 #include "Lib/finder.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include "Lib/leven.h"
+#include <dirent.h>
+
 
 /**
  * Lista iniziale.

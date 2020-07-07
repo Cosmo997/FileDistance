@@ -1,9 +1,7 @@
 #ifndef istruction_structure_h
 #define istruction_structure_h
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+
 
 /**
  * Enum contenente il tipo di modifica da apportare.

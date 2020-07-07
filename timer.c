@@ -1,5 +1,6 @@
 #include "Lib/timer.h"
-
+#include <stdio.h>
+#include <time.h>
 
 time_t start, end;
 double execution_time;

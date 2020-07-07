@@ -1,3 +1,7 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include "Lib/istruction_structure.h"
 #include "Lib/file_handler.h"
 
 /**

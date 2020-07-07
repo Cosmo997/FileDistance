@@ -1,4 +1,10 @@
 #include "Lib/leven.h"
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <dirent.h>
+#include "Lib/istruction_structure.h"
+#include "Lib/timer.h"
 
 /**
  * Restituisce il minimo tra i valori in ingresso.
@@ -77,8 +83,10 @@ MaxHeap * findEditPath(int ** matrix,  int nrighe , int ncolonne, char * finalRe
 
 void recFind(int ** matrix, MaxHeap * hp, int riga, int colonna, char * toModify, char * finalResault)
 {   
+    printf("\nRIGA: %d\nCOLONNA: %d\nMATRIX[%d][%d]: %d", riga, colonna, riga, colonna, matrix[riga][colonna]);
     if (matrix[riga][colonna] != 0)
     {   
+        printf("qui");
         if(riga -1>=  0 && colonna-1>= 0)
         {
         int app = min(matrix[riga][colonna-1],matrix[riga-1][colonna-1],matrix[riga-1][colonna]);
@@ -143,6 +151,7 @@ int **fillMatrix(int **matrix, char *toModify, int nrighe, char *finalResault, i
             
         }
     }
+    printMatrix(matrix, nrighe, ncolonne);
     return matrix;
 }
 
@@ -188,7 +197,7 @@ int levensthein_distance_out(char * toModify, char * finalResault, char *outputP
     int **matrix = createMatrix(nrighe, ncolonne);
     fillMatrix(matrix, toModify, nrighe, finalResault, ncolonne);
     //printMatrix(matrix, nrighe, ncolonne);
-    MaxHeap * hp = findEditPath(matrix, ncolonne, nrighe, toModify,finalResault);
+    MaxHeap * hp = findEditPath(matrix, nrighe, ncolonne, toModify,finalResault);
     int distance = hp->count;
     saveToFile(hp, outputPath);
     freeMat(nrighe, matrix);

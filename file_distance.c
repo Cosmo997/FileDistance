@@ -1,5 +1,10 @@
 #include "Lib/file_distance.h"
-
+#include <stdio.h>
+#include "Lib/istruction_structure.h"
+#include "Lib/file_handler.h"
+#include "Lib/leven.h"
+#include "Lib/timer.h"
+#include "Lib/finder.h"
 
 int distance(char *toModifyPath, char *finalResaultPath){
 

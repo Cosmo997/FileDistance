@@ -1,10 +1,6 @@
 #ifndef finder_h
 #define finder_h
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include "leven.h"
 
 /**
  * Struct contenente path, distanza e puntatore al nodo successivo della lista.

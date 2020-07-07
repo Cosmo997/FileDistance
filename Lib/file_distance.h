@@ -1,13 +1,6 @@
 #ifndef filedistance_h
 #define filedistance_h
 
-#include <stdio.h>
-#include "istruction_structure.h"
-#include "file_handler.h"
-#include "leven.h"
-#include "timer.h"
-#include "finder.h"
-
 /**
  * Funzione che restituisce la distanza di edit tra le due stringhe ricevute in ingresso.
  */
