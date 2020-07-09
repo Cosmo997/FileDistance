@@ -1,13 +1,12 @@
-#include "Lib/file_distance.h"
 #include <stdio.h>
-#include "Lib/istruction_structure.h"
-#include "Lib/file_handler.h"
-#include "Lib/leven.h"
-#include "Lib/timer.h"
-#include "Lib/finder.h"
+#include "file_handler.h"
+#include "leven.h"
+#include "timer.h"
+#include "finder.h"
+#include "file_distance.h"
+
 
 int distance(char *toModifyPath, char *finalResaultPath){
-
     char * toModify = getStringFromFile(toModifyPath);
     char * finalResault = getStringFromFile(finalResaultPath);
     printf("EDIT DISTANCE: %d \n",levensthein_distance(toModify, finalResault));

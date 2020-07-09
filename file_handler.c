@@ -1,8 +1,9 @@
+#include "file_handler.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "Lib/istruction_structure.h"
-#include "Lib/file_handler.h"
+#include "linked_list.h"
+
 
 /**
  * Aggiugne il carattere toAdd alla posizione pos nella stringa input.
@@ -19,40 +20,37 @@ char * deleteCharacter(char * input, int pos);
  */
 char * setCharacter(char * input, int pos, char toSet);
 
+/**
+ * Recupera le istruzioni e le relative informazioni dal filem.
+ */
+LinkedList * loadChanges(char * filemPath);
+
+/**
+ * Applica le modifiche contenute in lista alla stringa buffer e poi stampa il suo contenuto nel nuovo file.
+ */
+void apply(char * buffer, LinkedList * lista, char * outputPath);
+
+/**
+ * 
+ */
+void setCase(FILE * filem, LinkedList * lista, unsigned int pos, char c);
+
+/**
+ * 
+ */
+void delCase(FILE * filem, LinkedList * lista, unsigned int pos);
+
+/**
+ * 
+ */
+void addCase(FILE * filem, LinkedList * lista, unsigned int pos, char c);
+
+
 char * changesApply(char * toModifyPath, char * filemPath, char * outputPath)
 {
-    MaxHeap * dafile = NULL;
-    dafile = initStructure();
-    if (dafile == NULL)
-    {
-        return NULL;
-    }
-    getFromFile(dafile,filemPath);
     char * buffer = getStringFromFile(toModifyPath);
-    if(buffer == NULL)
-        return 0;
-    
-    FILE * out = fopen(outputPath, "w");
-    while (dafile->count != 0)
-    {
-        IstructionData istr = popIstruction(dafile);
-        switch (istr.istruction)
-        {
-        case ADD:
-            addCharacter(buffer, istr.position-1,istr.letter);
-            break;
-        case DEL:
-            deleteCharacter(buffer, istr.position-1);
-            break;
-        case SET:
-            setCharacter(buffer, istr.position-1, istr.letter);
-            break;
-        }
-        
-    }
-    fprintf(out,buffer);
-    fclose(out);
-    free(buffer);
+    LinkedList * lista = loadChanges(filemPath);
+    apply(buffer, lista, outputPath);
     return outputPath;
 }
 
@@ -97,7 +95,6 @@ char * getStringFromFile(char * input)
     {
         perror("\nErrore nell'apertura del file\n");
     }
-
     char * stringa = NULL;
     fseek(inputFile, 0L, SEEK_END);
     long fsize = ftell(inputFile);
@@ -115,4 +112,55 @@ char * getStringFromFile(char * input)
     }
 }
 
+LinkedList * loadChanges(char * filemPath)
+{
+    FILE * filem = fopen(filemPath, "rb+");
+    if(filem == NULL){
+        perror("\nErrore nell'apertura del file.\n");
+        exit(1);
+    }
+    LinkedList * lista = NULL;
+    char command;
+    unsigned int pos = 0;
+    char c;
+    while (!feof(filem)) {
+        fread(&command, sizeof(char), 1, filem);
+        switch (command) {
+            case 'S':
+                setCase(filem, lista, pos, c);
+                command = '\0';
+                break;
+            case 'A':
+                addCase(filem, lista, pos, c);
+                command = '\0';
+                break;
+            case 'D':
+                delCase(filem, lista, pos);
+                command = '\0';
+                break;
+        }
+    }
+    reverse(&lista);
+    return lista;
+}
 
+void setCase(FILE * filem, LinkedList * lista, unsigned int pos, char c)
+{
+    fseek(filem, 2, SEEK_CUR);
+    fread(&pos, (sizeof(unsigned int)), 1, filem);
+    fread(&c, (sizeof(char)), 1, filem);
+    pushIstruction(&lista, SET, pos, c);
+}
+void delCase(FILE * filem, LinkedList * lista, unsigned int pos)
+{
+    fseek(filem, 2, SEEK_CUR);
+    fread(&pos, (sizeof(unsigned int)), 1, filem);
+    pushIstruction(&lista, DEL, pos, '0');
+}
+void addCase(FILE * filem, LinkedList * lista, unsigned int pos, char c)
+{
+    fseek(filem, 2, SEEK_CUR);
+    fread(&pos, (sizeof(unsigned int)), 1, filem);
+    fread(&c, (sizeof(char)), 1, filem);
+    pushIstruction(&lista, ADD, pos, c);
+}

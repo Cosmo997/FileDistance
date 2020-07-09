@@ -10,6 +10,6 @@ char * changesApply(char *inputfile1, char *filem, char *outputfile);
 /**
  * Restituisce la striga contenuta nel file path.
  */
-char * getStringFromFile(char * path);
+char * getStringFromFile(char * input);
 
 #endif 
