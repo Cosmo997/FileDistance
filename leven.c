@@ -29,7 +29,7 @@ void freeMat(int nrighe, int** matrix);
 /**
  * Restituisce una LinkedList contenente le istruzioni che dovranno essere applicate al file per trasformarlo.
  */
-LinkedList * findEditPath(FILE * output, int ** matrix,  int nrighe , int ncolonne, char * finalResault, char * toModify);
+LinkedList * findEditPath(int ** matrix,  int nrighe , int ncolonne, char * finalResault, char * toModify);
 
 /**
  * Crea la matrice e la inizializza, riempiendo la prima riga e la prima colonna con i valori da 0 a n.
@@ -44,7 +44,7 @@ int ** fillMatrix(int **matrix, char *str1, int nrighe, char *str2, int ncolonne
 /**
  * Inserisce nel MaxHeap in ingresso le istruzioni per la trasformazione della stringa.
  */
-void recFind(FILE * output, int ** matrix, int riga, int colonna, char * toModify, char * finalResault);
+void recFind(int ** matrix, int riga, int colonna, char * toModify, char * finalResault);
 
 /**
  * Restituisce la striga contenuta nel file path.
@@ -85,14 +85,13 @@ void printMatrix(int **matrix, int nrighe, int ncolonne){
     }
 }
 
-LinkedList * findEditPath(FILE * output, int ** matrix,  int nrighe , int ncolonne, char * finalResault, char * toModify)
+LinkedList * findEditPath(int ** matrix,  int nrighe , int ncolonne, char * finalResault, char * toModify)
 {
-    recFind(output, matrix, nrighe-1, ncolonne-1, toModify, finalResault);
-    printf("\n\n");
+    recFind(matrix, nrighe-1, ncolonne-1, toModify, finalResault);
     return lista;
 }
 
-void recFind(FILE * output, int ** matrix, int riga, int colonna, char * toModify, char * finalResault)
+void recFind(int ** matrix, int riga, int colonna, char * toModify, char * finalResault)
 {   
     if (matrix[riga][colonna] != 0)
     {   
@@ -105,28 +104,28 @@ void recFind(FILE * output, int ** matrix, int riga, int colonna, char * toModif
             {
             pushIstruction(&lista, SET, colonna-1, finalResault[riga-1]); // ! SET
             }
-            recFind(output, matrix, riga - 1, colonna -1,toModify, finalResault);
+            recFind(matrix, riga - 1, colonna -1,toModify, finalResault);
         }
         else if (matrix[riga][colonna -1] == app && colonna-1 >= 0)
         {
             pushIstruction(&lista, ADD, colonna-1, finalResault[colonna-1]); // ! ADD
-            recFind(output, matrix, riga, colonna-1, toModify, finalResault);
+            recFind(matrix, riga, colonna-1, toModify, finalResault);
         }
         else if(matrix[riga-1][colonna] == app && riga-1 >= 0)
         {
             pushIstruction(&lista, DEL, riga,'-'); // ! DEL
-            recFind(output, matrix, riga-1, colonna, toModify, finalResault);
+            recFind(matrix, riga-1, colonna, toModify, finalResault);
         }
         }
         else if (riga - 1 < 0)
         {
             pushIstruction(&lista, ADD, colonna-1, finalResault[colonna-1]); // ! ADD
-            recFind(output, matrix, riga, colonna-1, toModify, finalResault);
+            recFind(matrix, riga, colonna-1, toModify, finalResault);
         }
         else if (colonna - 1 < 0)
         {
             pushIstruction(&lista, DEL, riga,'-'); // ! DEL
-            recFind(output, matrix, riga - 1, colonna, toModify, finalResault);
+            recFind(matrix, riga - 1, colonna, toModify, finalResault);
         }
         else return;
     }
@@ -148,7 +147,7 @@ int **fillMatrix(int **matrix, char *toModify, int nrighe, char *finalResault, i
             
         }
     }
-    printMatrix(matrix, nrighe, ncolonne);
+    //printMatrix(matrix, nrighe, ncolonne);
     return matrix;
 }
 
@@ -225,7 +224,10 @@ void writeList(char * outputPath, LinkedList * lista)
 {
     FILE *filem = fopen(outputPath, "wb+");
     if(filem == NULL)
-        return -1;
+        {
+            perror("Errore nell'apertura del file");
+            exit(1);
+        }
     char* command = NULL;
     unsigned int num = 0;
     

@@ -45,12 +45,13 @@ void delCase(FILE * filem, LinkedList * lista, unsigned int pos);
  */
 void addCase(FILE * filem, LinkedList * lista, unsigned int pos, char c);
 
+void saveNewFile(char * buffer, char * outputPath);
 
 char * changesApply(char * toModifyPath, char * filemPath, char * outputPath)
 {
     char * buffer = getStringFromFile(toModifyPath);
     LinkedList * lista = loadChanges(filemPath);
-    apply(buffer, lista, outputPath);
+    saveNewFile(buffer, outputPath);
     return outputPath;
 }
 
@@ -163,4 +164,13 @@ void addCase(FILE * filem, LinkedList * lista, unsigned int pos, char c)
     fread(&pos, (sizeof(unsigned int)), 1, filem);
     fread(&c, (sizeof(char)), 1, filem);
     pushIstruction(&lista, ADD, pos, c);
+}
+void saveNewFile(char * buffer, char * outputPath)
+{
+    FILE *output = fopen(outputPath, "w");
+    if (output == NULL) {
+        perror("Errore nell'apertura del file.");
+        exit(1);
+    }
+    fputs(buffer, output);
 }

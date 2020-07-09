@@ -5,6 +5,7 @@
 #include <string.h>
 #include "leven.h"
 #include <dirent.h>
+#include "file_handler.h"
 
 
 /**
@@ -54,12 +55,13 @@ void add(ScanData** head, char *path, int distance)
     count++;
     toAdd->path = (char*)malloc((strlen(path) + 1) * sizeof(char));
     toAdd->next = (*head);
+    toAdd->distance = (int)malloc(sizeof(int));
     toAdd->distance = distance;
     strcpy(toAdd->path, path);
     (* head) = toAdd;
 }
 
-void recScan(char *inputfile, char *basePath)
+void recScan(char *inputfilePath, char *basePath)
 {
     char path[1000] = "";
     struct dirent *dp;
@@ -75,10 +77,10 @@ void recScan(char *inputfile, char *basePath)
             strcat(path, "/");
             strcat(path, dp->d_name);
             if(dp->d_type != DT_DIR){
-            int distance = levensthein_distance(inputfile, path);
+            int distance = levensthein_distance(getStringFromFile(inputfilePath), getStringFromFile(path));
             add(&list, path, distance);
             }
-            recScan(inputfile ,path);
+            recScan(inputfilePath ,path);
         }
     }
     closedir(dir);
@@ -97,7 +99,7 @@ void printLimit(ScanData *list, int limit){
     while (list != NULL) {
         char *real_path = realpath(list->path, NULL);
         if (list->distance <= limit){
-            printf("D: %i \t P: %s \n",list->distance, real_path);
+            printf("Distance: %i \t Path: %s \n",list->distance, real_path);
         }
         list = list->next;
     }

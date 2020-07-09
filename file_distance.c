@@ -16,16 +16,16 @@ int distance(char *toModifyPath, char *finalResaultPath){
 
 int distanceOutput(char *toModifyPath, char *finalResaultPath, char *outputFilePath){
     
-    char * toModify = getStringFromFile(toModifyPath);
-    char * finalResault = getStringFromFile(finalResaultPath);
+    char * toModify = getStringFromFile(finalResaultPath);
+    char * finalResault = getStringFromFile(toModifyPath);
     int distance = levensthein_distance_out(toModify, finalResault, outputFilePath);
     printf("EDIT DISTANCE: %d \n",distance);
     printf("TIME: %lf\n", getExecutionTime());
     return 0;
 }
 
-int apply(char *inputfile, char *filem, char *outputfile){
-    changesApply(inputfile, filem, outputfile);
+int apply(char *inputfilePath, char *filemPath, char *outputfilePath){
+    changesApply(inputfilePath, filemPath, outputfilePath);
     return 0;
 }
 
