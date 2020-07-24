@@ -37,14 +37,5 @@ char* getIstructionName(IstructionType istr)
    }
 }
 
-void printList(LinkedList * node)
-{
-    while (node != NULL)
-    {
-        printf("\nType: %s \n", getIstructionName(node->type));
-        printf("Pos: %i \n", node->pos);
-        printf("Char: %c \n", node->character);
-        node = node->next;
-    }
-}
+
 

@@ -42,7 +42,7 @@ int ** createMatrix(int nrighe, int ncolonne);
 int ** fillMatrix(int **matrix, char *str1, int nrighe, char *str2, int ncolonne);
 
 /**
- * Inserisce nel MaxHeap in ingresso le istruzioni per la trasformazione della stringa.
+ * Funzione interna ricorsiva per individuare le istruzioni da applicare per la modifica.
  */
 void recFind(int ** matrix, int riga, int colonna, char * toModify, char * finalResault);
 
@@ -52,7 +52,7 @@ void recFind(int ** matrix, int riga, int colonna, char * toModify, char * final
 char * getStringFromFile(char * path);
 
 /**
- * 
+ * Scrive gli elementi contenuti nella lista nel filem.
  */
 void writeList(char * filemPath, LinkedList * lista);
 

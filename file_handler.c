@@ -31,17 +31,17 @@ LinkedList * loadChanges(char * filemPath);
 void apply(char * buffer, LinkedList * lista, char * outputPath);
 
 /**
- * 
+ * Legge un'istruzione SET dal file
  */
 void setCase(FILE * filem, LinkedList * lista, unsigned int pos, char c);
 
 /**
- * 
+ * Legge un'istruzione DEL dal file
  */
 void delCase(FILE * filem, LinkedList * lista, unsigned int pos);
 
 /**
- * 
+ * Legge un'istruzione ADD dal file
  */
 void addCase(FILE * filem, LinkedList * lista, unsigned int pos, char c);
 
